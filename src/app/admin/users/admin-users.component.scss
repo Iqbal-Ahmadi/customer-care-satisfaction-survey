@@ -1,0 +1,75 @@
+﻿/* Admin user management table styling. */
+.admin-wrapper {
+  padding-bottom: var(--space-4);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.survey-select {
+  width: min(320px, 100%);
+}
+
+.table-card {
+  background: var(--surface-raised);
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+table {
+  width: 100%;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-id {
+  font-size: 0.85rem;
+  color: var(--ink-subtle);
+}
+
+.role-field {
+  width: 180px;
+}
+
+.locked {
+  color: #b00020;
+  font-weight: 600;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skeleton-row {
+  height: 44px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-1);
+}
+
+.error-state {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-4) 0;
+  color: #b00020;
+}
+
+@media (max-width: 600px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .role-field {
+    width: 100%;
+  }
+}

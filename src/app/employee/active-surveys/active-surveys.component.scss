@@ -1,0 +1,53 @@
+﻿/* Layout styles for the employee survey list. */
+.surveys-wrapper {
+  padding-bottom: var(--space-4);
+}
+
+.surveys-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.survey-grid {
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.survey-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-sm);
+}
+
+.date-range {
+  color: var(--ink-muted);
+}
+
+.skeleton-card {
+  height: 160px;
+  border-radius: var(--radius-lg);
+}
+
+.loading-state,
+.empty-state,
+.error-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--space-4) 0;
+  color: var(--ink-muted);
+}
+
+.error-state {
+  color: #b00020;
+}
+
+@media (max-width: 720px) {
+  .survey-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,58 @@
+﻿<section class="admin-wrapper">
+  <div class="page-container">
+    <!-- Admin overview cards and navigation shortcuts. -->
+    <header class="admin-header">
+      <div>
+        <h2>Admin Dashboard</h2>
+        <p class="muted-text">Manage surveys, users, and reporting from here.</p>
+      </div>
+      <button mat-stroked-button color="primary" routerLink="/admin/reports">View Reports</button>
+    </header>
+
+    @if (loading) {
+      <div class="loading-state">
+        <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+      </div>
+    } @else {
+      <div class="summary-grid">
+        <mat-card class="summary-card card-hover">
+          <mat-card-title>Surveys</mat-card-title>
+          <div class="summary-row">
+            <mat-card-content class="summary-count">{{ surveyCount }}</mat-card-content>
+            <mat-card-actions align="end">
+              <a mat-stroked-button color="primary" routerLink="/admin/surveys">Manage Surveys</a>
+            </mat-card-actions>
+          </div>
+        </mat-card>
+
+        <mat-card class="summary-card card-hover">
+          <mat-card-title>Users</mat-card-title>
+          <div class="summary-row">
+            <mat-card-content class="summary-count">{{ userCount }}</mat-card-content>
+            <mat-card-actions align="end">
+              <a mat-stroked-button color="primary" routerLink="/admin/users">Manage Users</a>
+            </mat-card-actions>
+          </div>
+        </mat-card>
+        
+        <mat-card class="summary-card card-hover">
+          <mat-card-title>Responses</mat-card-title>
+          <div class="summary-row">
+            <mat-card-content class="summary-count">{{ responseCount }}</mat-card-content>
+            <mat-card-actions align="end">
+              <a mat-stroked-button color="primary" routerLink="/admin/reports">Reporting</a>
+            </mat-card-actions>
+          </div>
+        </mat-card>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="quick-links">
+        <a mat-stroked-button color="primary" routerLink="/admin/surveys">Create Survey</a>
+        <a mat-stroked-button color="primary" routerLink="/admin/users">Unlock Accounts</a>
+        <a mat-stroked-button color="primary" routerLink="/admin/reports">Export Reports</a>
+      </div>
+    }
+  </div>
+</section>

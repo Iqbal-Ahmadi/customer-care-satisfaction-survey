@@ -1,0 +1,112 @@
+﻿<section class="survey-wrapper">
+  <div class="page-container">
+    @if (loading) {
+      <div class="loading-state">
+        <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+      </div>
+    } @else if (errorMessage) {
+      <div class="error-state">{{ errorMessage }}</div>
+    } @else if (survey) {
+      <header class="survey-header">
+        <div>
+          <h2>{{ survey.title }}</h2>
+          <p class="date-range">
+            {{ survey.start_at | date: 'mediumDate' }} - {{ survey.end_at | date: 'mediumDate' }}
+          </p>
+        </div>
+      </header>
+
+      @if (survey.questions.length === 0) {
+        <div class="empty-state">
+          <mat-icon>inbox</mat-icon>
+          <span>Survey has no questions.</span>
+        </div>
+      } @else {
+        <div class="survey-layout">
+          <div class="survey-main">
+            @if (!isAvailable) {
+              <div class="status-banner">Survey not available.</div>
+            }
+
+            @if (isCompleted) {
+              <div class="status-banner">Already completed.</div>
+            }
+
+            <form [formGroup]="form" class="survey-form">
+              <div formArrayName="questions" class="question-list">
+                @for (question of survey.questions; track question.id; let i = $index) {
+                  @if (getQuestionGroup(i); as group) {
+                    <div [formGroupName]="i" class="question-card" [attr.id]="'question-' + (i + 1)">
+                      <h3>Question {{ i + 1 }}</h3>
+                      <p class="question-text">{{ question.text }}</p>
+
+                      <div class="radio-group" [class.invalid]="group.controls.score.touched && group.controls.score.invalid">
+                        <mat-radio-group formControlName="score">
+                          @for (option of question.options; track option.score) {
+                            <mat-radio-button [value]="option.score">{{ option.label }}</mat-radio-button>
+                          }
+                        </mat-radio-group>
+                        @if (group.controls.score.touched && group.controls.score.hasError('required')) {
+                          <div class="field-error">Score is required.</div>
+                        }
+                        @if (group.controls.score.hasError('server')) {
+                          <div class="field-error">{{ group.controls.score.getError('server') }}</div>
+                        }
+                      </div>
+
+                      @if (requiresComment(i)) {
+                        <mat-form-field appearance="outline" class="comment-field">
+                          <mat-label>Comment (required)</mat-label>
+                          <textarea matInput rows="3" formControlName="comment"></textarea>
+                          @if (group.controls.comment.touched && group.controls.comment.hasError('required')) {
+                            <mat-error>Comment is required for low scores.</mat-error>
+                          }
+                          @if (group.controls.comment.hasError('server')) {
+                            <mat-error>{{ group.controls.comment.getError('server') }}</mat-error>
+                          }
+                        </mat-form-field>
+                      }
+                    </div>
+                  }
+                }
+              </div>
+            </form>
+
+            <div class="actions">
+              <button
+                mat-raised-button
+                color="primary"
+                type="button"
+                (click)="submit()"
+                [disabled]="submitLoading || form.invalid || !isAvailable || isCompleted"
+              >
+                @if (submitLoading) {
+                  <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+                } @else {
+                  Submit
+                }
+              </button>
+            </div>
+          </div>
+
+          <aside class="survey-aside">
+            <div class="aside-card">
+              <h3>Progress</h3>
+              <p class="muted-text">Question {{ progressIndex }} of {{ survey.questions.length }}</p>
+              <mat-divider></mat-divider>
+              <div class="status-chip" [class.disabled]="!isAvailable">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ isAvailable ? 'Open' : 'Closed' }}</span>
+              </div>
+              <div class="status-chip" [class.disabled]="!isCompleted">
+                <mat-icon>check_circle</mat-icon>
+                <span>{{ isCompleted ? 'Completed' : 'Not completed' }}</span>
+              </div>
+              <p class="aside-note muted-text">Low scores require a comment before submission.</p>
+            </div>
+          </aside>
+        </div>
+      }
+    }
+  </div>
+</section>

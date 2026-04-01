@@ -1,0 +1,46 @@
+﻿<section class="surveys-wrapper">
+  <div class="page-container">
+    <!-- Active survey list for employees. -->
+    <header class="surveys-header">
+      <div>
+        <h2>Active Surveys</h2>
+        <p class="muted-text">Share your feedback to help improve daily operations.</p>
+      </div>
+    </header>
+
+    @if (loading) {
+      <div class="survey-grid">
+        @for (item of skeletonItems; track $index) {
+          <div class="skeleton-card skeleton"></div>
+        }
+      </div>
+    } @else if (errorMessage) {
+      <div class="error-state">{{ errorMessage }}</div>
+    } @else if (surveys.length === 0) {
+      <div class="empty-state">
+        <mat-icon>inbox</mat-icon>
+        <span>No active surveys right now.</span>
+      </div>
+    } @else {
+      <div class="survey-grid">
+        @for (survey of surveys; track survey.id) {
+          <mat-card class="survey-card card-hover">
+            <mat-card-header>
+              <mat-card-title>{{ survey.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="date-range">
+                {{ survey.start_at | date: 'mediumDate' }} - {{ survey.end_at | date: 'mediumDate' }}
+              </p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button mat-stroked-button color="primary" (click)="openSurvey(survey)">
+                Open Survey
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+    }
+  </div>
+</section>

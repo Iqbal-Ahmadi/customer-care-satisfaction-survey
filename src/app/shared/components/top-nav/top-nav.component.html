@@ -1,0 +1,27 @@
+﻿<mat-toolbar class="top-nav">
+  <!-- Sticky navbar container. -->
+  <div class="nav-container">
+    <a class="brand" routerLink="/surveys">Employee Survey Portal</a>
+
+    <span class="nav-links">
+      <a mat-button routerLink="/surveys">Surveys</a>
+
+      @if (user$ | async; as user) {
+        @if (user.role === 'ADMIN' || user.role === 'SUPER_ADMIN') {
+          <a mat-button routerLink="/admin">Admin</a>
+        }
+      }
+    </span>
+
+    <span class="spacer"></span>
+    
+    @if (user$ | async; as user) {
+      <span class="user-pill">
+        <mat-icon>account_circle</mat-icon>
+        <span>{{ user.name }}</span>
+        <span class="role">{{ user.role }}</span>
+      </span>
+      <button mat-stroked-button type="button" (click)="logout()">Logout</button>
+    }
+  </div>
+</mat-toolbar>

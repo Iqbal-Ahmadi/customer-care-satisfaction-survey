@@ -1,0 +1,76 @@
+﻿<section class="admin-wrapper">
+  <div class="page-container">
+    <!-- User management with unlock/reset actions. -->
+    <header class="admin-header">
+      <div>
+        <h2>User Management</h2>
+        <p class="muted-text">Manage user roles, unlock accounts, and reset survey completion.</p>
+      </div>
+      <mat-form-field appearance="outline" class="survey-select">
+        <mat-label>Survey for reset</mat-label>
+        <mat-select [(value)]="selectedSurveyId">
+          @for (survey of surveys; track survey.id) {
+          <mat-option [value]="survey.id">{{ survey.title }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </header>
+
+    @if (loading) {
+    <div class="table-card">
+      @for (row of skeletonRows; track $index) {
+      <div class="skeleton-row skeleton"></div>
+      }
+    </div>
+    } @else if (errorMessage) {
+    <div class="error-state">{{ errorMessage }}</div>
+    } @else {
+    <div class="table-card">
+      <table mat-table [dataSource]="users" class="mat-elevation-z1">
+        <ng-container matColumnDef="employee">
+          <th mat-header-cell *matHeaderCellDef>Employee</th>
+          <td mat-cell *matCellDef="let user">
+            <div class="user-name">{{ user.name }}</div>
+            <div class="user-id">{{ user.employee_id }}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Role</th>
+          <td mat-cell *matCellDef="let user">
+            <mat-form-field appearance="outline" class="role-field">
+              <mat-select [value]="user.role" (selectionChange)="updateRole(user, $event.value)">
+                <mat-option value="USER">USER</mat-option>
+                <mat-option value="ADMIN">ADMIN</mat-option>
+                <mat-option value="SUPER_ADMIN">SUPER_ADMIN</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let user">
+            <span [class.locked]="user.locked">{{ user.locked ? 'Locked' : 'Active' }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let user">
+            <div class="action-buttons">
+              <button mat-stroked-button color="primary" (click)="resetSurvey(user)">Reset Survey</button>
+              <button mat-stroked-button color="warn" [disabled]="!user.locked" (click)="unlockUser(user)">
+                Unlock
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    }
+  </div>
+</section>

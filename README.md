@@ -1,59 +1,56 @@
-# EmployeeSurveyPortal
+﻿# Employee Survey Portal
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+Frontend for the Employee Survey Portal (Angular 17+ standalone).
 
-## Development server
+## Configure API Base URL
 
-To start a local development server, run:
+Update `src/environments/environment.ts` and set:
 
-```bash
+```
+export const environment = {
+  apiBaseUrl: 'http://localhost:8000',
+  useMockAuth: true,
+  useMockApi: true,
+  idleTimeoutMinutes: 30
+};
+```
+
+Set `useMockAuth` and `useMockApi` to `false` once the Laravel backend is ready.
+
+## Install dependencies
+
+```
+npm install
+```
+
+## Run the app
+
+```
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Then open `http://localhost:4200/`.
 
-## Code scaffolding
+## Mock login (no backend yet)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Any username/password works.
+- If the username contains `admin`, you get the `ADMIN` role.
+- If it contains `super`, you get the `SUPER_ADMIN` role.
 
-```bash
-ng generate component component-name
-```
+## Mock data
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Surveys, users, and responses are stored in `sessionStorage` via `MockStoreService`.
+- Admin pages allow editing surveys, unlocking users, and resetting completion using mock data.
+- Reports and exports use mock data; Excel export is CSV-based.
 
-```bash
-ng generate --help
-```
+## Routes
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `/login`
+- `/surveys` (employee survey list)
+- `/surveys/:id` (survey form)
+- `/admin` (dashboard)
+- `/admin/surveys` (survey management)
+- `/admin/surveys/new`
+- `/admin/surveys/:id`
+- `/admin/users` (user management)
+- `/admin/reports` (reporting & exports)

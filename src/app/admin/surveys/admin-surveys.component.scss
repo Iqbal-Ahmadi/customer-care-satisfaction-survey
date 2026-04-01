@@ -1,0 +1,42 @@
+﻿/* Admin survey list table styling. */
+.admin-wrapper {
+  padding-bottom: var(--space-4);
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.table-card {
+  background: var(--surface-raised);
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+table {
+  width: 100%;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skeleton-row {
+  height: 44px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-1);
+}
+
+.error-state {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-4) 0;
+  color: #b00020;
+}

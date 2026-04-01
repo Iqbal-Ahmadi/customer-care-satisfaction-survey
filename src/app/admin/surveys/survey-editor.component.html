@@ -1,0 +1,108 @@
+﻿<section class="editor-wrapper">
+  <div class="page-container">
+    <!-- Survey editor form for title, dates, and questions. -->
+    <header class="editor-header">
+      <div>
+        <h2>{{ surveyId ? 'Edit Survey' : 'Create Survey' }}</h2>
+        <p class="muted-text">Manage survey availability, questions, and scoring options.</p>
+      </div>
+      <button mat-stroked-button color="primary" routerLink="/admin/surveys">Back to list</button>
+    </header>
+
+    @if (loading) {
+    <div class="loading-state">
+      <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+    </div>
+    } @else {
+    <form [formGroup]="form" class="editor-form">
+      <!-- Survey metadata inputs. -->
+      <div class="meta-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Survey Title</mat-label>
+          <input matInput formControlName="title" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input matInput type="date" formControlName="start_at" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>End Date</mat-label>
+          <input matInput type="date" formControlName="end_at" />
+        </mat-form-field>
+      </div>
+
+      <div class="questions-header">
+        <h3>Questions</h3>
+        <button mat-stroked-button color="primary" type="button" (click)="addQuestion()">
+          Add Question
+        </button>
+      </div>
+
+      <mat-accordion formArrayName="questions" class="questions-list" [multi]="true">
+        @for (question of questions.controls; let i = $index; track i) {
+        <mat-expansion-panel class="question-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Question {{ i + 1 }}</mat-panel-title>
+            <mat-panel-description>
+              {{ question.get('text')?.value || 'Untitled question' }}
+            </mat-panel-description>
+            <button mat-icon-button color="warn" type="button" (click)="removeQuestion(i); $event.stopPropagation()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-expansion-panel-header>
+
+          <div class="question-card" [formGroupName]="i">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Question Text</mat-label>
+              <input matInput formControlName="text" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Threshold</mat-label>
+              <input matInput type="number" formControlName="threshold" />
+            </mat-form-field>
+
+            <div formArrayName="options" class="options-list">
+              <div class="options-header">
+                <span>Options</span>
+                <button mat-stroked-button type="button" (click)="addOption(i)">Add Option</button>
+              </div>
+
+              @for (option of getOptions(i).controls; let j = $index; track j) {
+              <div class="option-row" [formGroupName]="j">
+                <mat-form-field appearance="outline">
+                  <mat-label>Score</mat-label>
+                  <input matInput type="number" formControlName="score" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="option-label">
+                  <mat-label>Label</mat-label>
+                  <input matInput formControlName="label" />
+                </mat-form-field>
+
+                <button mat-icon-button color="warn" type="button" (click)="removeOption(i, j)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              }
+            </div>
+          </div>
+        </mat-expansion-panel>
+        }
+      </mat-accordion>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" type="button" (click)="save()" [disabled]="saving">
+          @if (saving) {
+          <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+          } @else {
+          Save Survey
+          }
+        </button>
+      </div>
+    </form>
+    }
+  </div>
+</section>
