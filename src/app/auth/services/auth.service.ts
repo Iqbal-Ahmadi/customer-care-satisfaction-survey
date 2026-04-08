@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private readonly apiClient: ApiClientService,
     private readonly mockStoreService: MockStoreService
-  ) { }
+  ) {}
 
   login(username: string, password: string): Observable<LoginResponse> {
     // Use a mock login response when the backend is not available.

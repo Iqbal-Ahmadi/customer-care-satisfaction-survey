@@ -1,13 +1,15 @@
-﻿/* Sticky navbar layout and responsive behavior. */
+/* Sticky navbar layout and responsive behavior. */
 .top-nav {
   position: sticky;
   top: 0;
   z-index: 10;
+  height: 90px;
 }
 
 .nav-container {
   width: 100%;
   max-width: 1120px;
+  min-height: 100px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -15,16 +17,60 @@
   padding: 0 var(--space-2);
 }
 
+
 .brand {
-  font-weight: 600;
-  text-decoration: none;
-  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  // gap: 0.75rem;
+  // font-weight: 600;
+  // text-decoration: none;
+  // color: inherit;
 }
 
-.nav-links {
-  display: flex;
-  gap: 0.5rem;
+.brand-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
 }
+
+
+.nav-links {
+  margin-left: 50px;
+  display: flex;
+  gap: 1.85rem;
+}
+
+.nav-links a {
+  position: relative;
+  // padding-bottom: 20px;
+  text-decoration: none;
+  font-weight: 550;
+  font-size: 1.15rem;
+  // font-weight: 600;
+  transition: color 180ms ease, background-color 180ms ease;
+  background: transparent !important;
+}
+
+.nav-links a:hover {
+  // text-decoration: underline #E00800;
+  background: transparent !important;
+  color: #E00800 !important;
+}
+
+// .nav-links a::after {
+//   content: "";
+//   position: absolute;
+//   left: 0;
+//   bottom: 0;
+//   width: 0;
+//   height: 2px;
+//   background: #E00800;
+//   transition: width 0.2s ease;
+// }
+
+// .nav-links a:hover::after {
+//   width: 100%;
+// }
 
 .spacer {
   flex: 1 1 auto;

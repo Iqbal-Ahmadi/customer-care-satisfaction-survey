@@ -1,6 +1,24 @@
-﻿@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 /* Global design tokens, layout helpers, and skeleton styles. */
+
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('/assets/fonts/SuisseIntl.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SuisseIntl bold';
+  src: url('/assets/fonts/SuisseIntl-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --surface: #ffffff;
   --surface-muted: #f7f8fb;
@@ -29,11 +47,10 @@ body {
 
 body {
   margin: 0;
-  font-family: 'Source Sans 3', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'SuisseIntl';
   color: var(--ink);
-  // background: linear-gradient(145deg, #eef2ff 0%, #f8fafc 35%, #ffffff 100%);
-  background: #eef2ff;
-
+  // background: #eef2ff;
+  background: #FFFFFE;
 }
 
 a {
@@ -132,3 +149,56 @@ button,
     transform: translateX(100%);
   }
 }
+
+/* e& primary button guideline for nav, survey, admin, and reports areas. */
+// :root {
+//   --button-primary: #E00800;
+//   --button-primary-hover: #BB0700;
+//   --button-primary-pressed: #950500;
+//   --button-disabled-bg: #D1D0D4;
+//   --button-disabled-text: #8C8994;
+// }
+
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-raised-button:not(.mat-mdc-icon-button),
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-unelevated-button:not(.mat-mdc-icon-button),
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-stroked-button:not(.mat-mdc-icon-button) {
+//   // min-height: 48px;
+//   padding: 10px 20px !important;
+//   border: 0 !important;
+//   border-radius: 999px !important;
+//   background: var(--button-primary) !important;
+//   color: #ffffff !important;
+//   // font-weight: 700 !important;
+//   box-shadow: none !important;
+//   transition: background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+// }
+
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-raised-button:not(.mat-mdc-icon-button):hover:not(:disabled),
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-unelevated-button:not(.mat-mdc-icon-button):hover:not(:disabled),
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-stroked-button:not(.mat-mdc-icon-button):hover:not(:disabled) {
+//   background: var(--button-primary-hover) !important;
+//   color: #ffffff !important;
+// }
+
+
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-raised-button:not(.mat-mdc-icon-button):disabled,
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-unelevated-button:not(.mat-mdc-icon-button):disabled,
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-stroked-button:not(.mat-mdc-icon-button):disabled {
+//   background: var(--button-disabled-bg) !important;
+//   color: var(--button-disabled-text) !important;
+//   cursor: not-allowed !important;
+//   opacity: 1 !important;
+// }
+
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-raised-button:not(.mat-mdc-icon-button) .mat-mdc-button-persistent-ripple::before,
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-unelevated-button:not(.mat-mdc-icon-button) .mat-mdc-button-persistent-ripple::before,
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-stroked-button:not(.mat-mdc-icon-button) .mat-mdc-button-persistent-ripple::before {
+//   background-color: transparent !important;
+//   opacity: 0 !important;
+// }
+
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-raised-button:not(.mat-mdc-icon-button) .mat-mdc-progress-spinner circle,
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-unelevated-button:not(.mat-mdc-icon-button) .mat-mdc-progress-spinner circle,
+// :is(.top-nav, .surveys-wrapper, .survey-wrapper, .admin-wrapper) .mat-mdc-stroked-button:not(.mat-mdc-icon-button) .mat-mdc-progress-spinner circle {
+//   stroke: #ffffff !important;
+// }

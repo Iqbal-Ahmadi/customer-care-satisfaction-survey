@@ -1,5 +1,5 @@
-﻿import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { TopNavComponent } from './shared/components/top-nav/top-nav.component';
 import { IdleTimeoutService } from './shared/services/idle-timeout.service';
 
@@ -10,7 +10,14 @@ import { IdleTimeoutService } from './shared/services/idle-timeout.service';
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
-  constructor(private readonly idleTimeoutService: IdleTimeoutService) {}
+  constructor(
+    private readonly idleTimeoutService: IdleTimeoutService,
+    readonly router: Router
+  ) {}
+
+  get showTopNav(): boolean {
+    return this.router.url !== '/login';
+  }
 
   ngOnInit(): void {
     // Start idle timeout tracking for automatic logout.

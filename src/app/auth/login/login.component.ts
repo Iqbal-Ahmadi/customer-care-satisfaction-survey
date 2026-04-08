@@ -1,4 +1,4 @@
-﻿import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,14 +24,16 @@ export class LoginComponent {
 
   readonly form = this.formBuilder.group({
     username: ['', Validators.required],
-    password: ['', Validators.required]
+    password: ['', [Validators.required, Validators.minLength(8)]]
   });
+
+  readonly portalTitleCharacters = 'Customer Care Satisfaction Survey'.split('');
 
   loading = false;
   errorMessage = '';
+  hidePassword = true;
 
   submit(): void {
-    // Submit the login form and handle API errors explicitly.
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -58,8 +60,11 @@ export class LoginComponent {
     });
   }
 
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
   private getLoginErrorMessage(status?: number): string {
-    // Map backend error codes to user-friendly login messages.
     if (status === 423) {
       return 'Account locked. Try again later or contact admin.';
     }

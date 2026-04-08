@@ -1,5 +1,7 @@
-﻿<app-top-nav></app-top-nav>
+@if (showTopNav) {
+  <app-top-nav></app-top-nav>
+}
 <!-- Application shell for routed pages. -->
-<main class="app-shell">
+<main class="app-shell" [class.auth-shell]="!showTopNav">
   <router-outlet></router-outlet>
 </main>

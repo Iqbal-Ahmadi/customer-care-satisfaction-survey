@@ -1,53 +1,81 @@
-﻿<div class="login-wrapper">
-  <mat-card class="login-card">
-    <!-- Login form for LDAP-authenticated users (mocked for now). -->
-    <mat-card-header>
-      <mat-card-title>Sign in</mat-card-title>
-      <mat-card-subtitle>Use your employee credentials.</mat-card-subtitle>
-    </mat-card-header>
-    
-    <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <!-- Username input. -->
-        <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username" autocomplete="username" />
-          @if (form.controls.username.touched && form.controls.username.hasError('required')) {
-            <mat-error>Username is required.</mat-error>
-          }
-        </mat-form-field>
+<div class="login-container">
+  <section class="brand-section">
+    <div class="logo-icon">
+      <img src="assets/images/logo.png" alt="Company logo" class="logo-image" />
+    </div>
 
-        <!-- Password input. -->
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" autocomplete="current-password" />
-          @if (form.controls.password.touched && form.controls.password.hasError('required')) {
-            <mat-error>Password is required.</mat-error>
-          }
-        </mat-form-field>
-      </form>
+    <div class="brand-message">
+      <span class="welcome-label">Welcome to</span>
+      <div class="animate four" aria-label="Customer Care Satisfaction Survey">
+        @for (char of portalTitleCharacters; track $index) {
+        <span [class.space]="char === ' '">{{ char === ' ' ? '\u00A0' : char }}</span>
+        }
+      </div>
+      <p>
+        The employee survey portal your secure gateway to feedback insights,
+        survey participation, and performance improvement in one place.
+      </p>
+      <p>A Solution by the <strong>AI & Solution Development Department</strong></p>
+    </div>
+  </section>
 
-      <!-- Mock hint for admin roles during development. -->
-      <!-- <div class="mock-hint">
-        <mat-icon>info</mat-icon>
-        <span>Mock login: include “admin” or “super” in username to get admin roles.</span>
-      </div> -->
-    </mat-card-content>
+  <section class="login-section">
+    <div class="login-header">
+      <h2>Employee Login</h2>
+      <p>Enter your credentials</p>
+    </div>
 
-    <mat-card-actions align="end">
-      <button
-        mat-raised-button
-        color="primary"
-        type="button"
-        [disabled]="loading"
-        (click)="submit()"
-      >
+    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+      @if (errorMessage) {
+      <div class="message error">{{ errorMessage }}</div>
+      }
+
+      <div class="form-group">
+        <label for="username">
+          <mat-icon>account_circle</mat-icon>
+          Username
+        </label>
+        <input type="text" id="username" class="form-control" formControlName="username"
+          placeholder="Enter your username or email" autocomplete="username" />
+        @if (form.controls.username.touched && form.controls.username.hasError('required')) {
+        <div class="error show">Username is required.</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">
+          <mat-icon>vpn_key</mat-icon>
+          Password
+        </label>
+        <div class="password-container">
+          <input [type]="hidePassword ? 'password' : 'text'" id="password" class="form-control"
+            formControlName="password" placeholder="Enter your password" autocomplete="current-password" />
+          <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+            <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+        </div>
+        @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+        <div class="error show">Password is required.</div>
+        } @else if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+        <div class="error show">Password must be at least 8 characters.</div>
+        }
+      </div>
+
+      <button type="submit" class="btn-login" [disabled]="loading">
         @if (loading) {
-          <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+        <div class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
         } @else {
-          Login
+        <span class="btn-text">Sign In</span>
         }
       </button>
-    </mat-card-actions>
-  </mat-card>
+
+      <div class="additional-links">
+        <p>© 2026 —e& Afghanistan—</p>
+      </div>
+    </form>
+  </section>
 </div>
