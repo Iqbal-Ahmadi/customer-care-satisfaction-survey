@@ -3,4 +3,4 @@
   useMockAuth: false,
   useMockApi: false,
   idleTimeoutMinutes: 30
-};
+}

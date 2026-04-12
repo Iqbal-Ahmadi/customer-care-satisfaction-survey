@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     private readonly apiClient: ApiClientService,
     private readonly mockStoreService: MockStoreService
-  ) {}
+  ) { }
 
   login(username: string, password: string): Observable<LoginResponse> {
     // Use a mock login response when the backend is not available.
@@ -26,7 +26,7 @@ export class AuthService {
 
     // Call the backend login API and persist the session on success.
     return this.apiClient
-      .post<LoginResponse>('api/auth/dev-token', { username, password })
+      .post<LoginResponse>('api/auth/login', { username, password })
       .pipe(tap((response) => this.setSession(response.access_token, response.user)));
   }
 
