@@ -20,7 +20,7 @@ export class AdminUsersComponent implements OnInit {
   errorMessage = '';
   selectedSurveyId: number | null = null;
 
-  displayedColumns = ['employee', 'role', 'status', 'actions'];
+  displayedColumns = ['employee', 'role', 'actions'];
   readonly skeletonRows = Array.from({ length: 5 });
 
   constructor(
@@ -45,20 +45,6 @@ export class AdminUsersComponent implements OnInit {
       },
       error: () => {
         this.snackBar.open('Unable to update user.', 'Dismiss', { duration: 3000 });
-      }
-    });
-  }
-
-  unlockUser(user: AdminUser): void {
-    // Unlock a locked user account.
-    this.adminService.unlockUser(user.employee_id).subscribe({
-      next: () => {
-        user.locked = false;
-        this.snackBar.open('Account unlocked.', 'Dismiss', { duration: 3000 });
-        this.changeDetectorRef.markForCheck();
-      },
-      error: () => {
-        this.snackBar.open('Unable to unlock account.', 'Dismiss', { duration: 3000 });
       }
     });
   }

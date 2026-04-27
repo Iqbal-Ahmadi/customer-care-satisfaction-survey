@@ -26,7 +26,7 @@ export class AuthService {
 
     // Call the backend login API and persist the session on success.
     return this.apiClient
-      .post<LoginResponse>('api/auth/login', { username, password })
+      .post<LoginResponse>('api/auth/dev-token', { username, password })
       .pipe(tap((response) => this.setSession(response.access_token, response.user)));
   }
 
@@ -98,16 +98,11 @@ export class AuthService {
       role
     };
 
-    if (existingUser?.locked) {
-      return throwError(() => ({ status: 423 }));
-    }
-
     if (!existingUser) {
       store.users.push({
         employee_id: userProfile.employee_id,
         name: userProfile.name,
-        role: userProfile.role,
-        locked: false
+        role: userProfile.role
       });
       this.mockStoreService.saveStore(store);
     } else if (existingUser.role !== role) {

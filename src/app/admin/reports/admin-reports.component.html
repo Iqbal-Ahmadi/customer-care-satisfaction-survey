@@ -17,7 +17,7 @@
         <mat-label>Survey</mat-label>
         <mat-select formControlName="survey_id">
           @for (survey of surveys; track survey.id) {
-            <mat-option [value]="survey.id">{{ survey.title }}</mat-option>
+          <mat-option [value]="survey.id">{{ survey.title }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -41,114 +41,144 @@
     </form>
 
     @if (loading) {
-      <div class="loading-state">
-        <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
-      </div>
+    <div class="loading-state">
+      <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+    </div>
     } @else if (report) {
-      <div class="table-card">
-        <h3>Average Score per Question</h3>
-        <table mat-table [dataSource]="report.averageScorePerQuestion">
-          <ng-container matColumnDef="question_text">
-            <th mat-header-cell *matHeaderCellDef>Question Text</th>
-            <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
-            <td mat-footer-cell *matFooterCellDef class="summary-footer-cell">
-              Total Questions: {{ averageScoreSummary.totalQuestions }}
-            </td>
-          </ng-container>
+    <div class="table-card">
+      <h3>Average Score per Question</h3>
+      <table mat-table [dataSource]="report.averageScorePerQuestion">
+        <ng-container matColumnDef="question_text">
+          <th mat-header-cell *matHeaderCellDef>Question Text</th>
+          <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
+          <td mat-footer-cell *matFooterCellDef class="summary-footer-cell">
+            Total Questions: {{ averageScoreSummary.totalQuestions }}
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="total_responses">
-            <th mat-header-cell *matHeaderCellDef>Total Responses</th>
-            <td mat-cell *matCellDef="let row">{{ row.total_responses }}</td>
-            <td mat-footer-cell *matFooterCellDef class="summary-footer-cell"></td>
-          </ng-container>
+        <ng-container matColumnDef="total_responses">
+          <th mat-header-cell *matHeaderCellDef>Total Responses</th>
+          <td mat-cell *matCellDef="let row">{{ row.total_responses }}</td>
+          <td mat-footer-cell *matFooterCellDef class="summary-footer-cell"></td>
+        </ng-container>
 
-          <ng-container matColumnDef="average_score">
-            <th mat-header-cell *matHeaderCellDef>Average Score</th>
-            <td mat-cell *matCellDef="let row">{{ row.average_score }}</td>
-            <td mat-footer-cell *matFooterCellDef class="summary-footer-cell">
-              Total Average: {{ averageScoreSummary.totalAverageScore }}
-            </td>
-          </ng-container>
+        <ng-container matColumnDef="average_score">
+          <th mat-header-cell *matHeaderCellDef>Average Score</th>
+          <td mat-cell *matCellDef="let row">{{ row.average_score }}</td>
+          <td mat-footer-cell *matFooterCellDef class="summary-footer-cell">
+            Total Average: {{ averageScoreSummary.totalAverageScore }}
+          </td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedAverageColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedAverageColumns"></tr>
-          <tr mat-footer-row *matFooterRowDef="displayedAverageColumns"></tr>
-        </table>
-      </div>
+        <tr mat-header-row *matHeaderRowDef="displayedAverageColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedAverageColumns"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedAverageColumns"></tr>
+      </table>
+    </div>
 
-      <div class="table-card">
-        <h3>Percentage of Responses Below Threshold</h3>
-        <table mat-table [dataSource]="report.belowThresholdStats">
-          <ng-container matColumnDef="question_text">
-            <th mat-header-cell *matHeaderCellDef>Question Text</th>
-            <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
-          </ng-container>
+    <div class="table-card">
+      <h3>Percentage of Responses Below Threshold</h3>
+      <table mat-table [dataSource]="report.belowThresholdStats">
+        <ng-container matColumnDef="question_text">
+          <th mat-header-cell *matHeaderCellDef>Question Text</th>
+          <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="total_responses">
-            <th mat-header-cell *matHeaderCellDef>Total Responses</th>
-            <td mat-cell *matCellDef="let row">{{ row.total_responses }}</td>
-          </ng-container>
+        <ng-container matColumnDef="total_responses">
+          <th mat-header-cell *matHeaderCellDef>Total Responses</th>
+          <td mat-cell *matCellDef="let row">{{ row.total_responses }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="responses_below_threshold">
-            <th mat-header-cell *matHeaderCellDef>Responses Below Threshold</th>
-            <td mat-cell *matCellDef="let row">{{ row.responses_below_threshold }}</td>
-          </ng-container>
+        <ng-container matColumnDef="responses_below_threshold">
+          <th mat-header-cell *matHeaderCellDef>Responses Below Threshold</th>
+          <td mat-cell *matCellDef="let row">{{ row.responses_below_threshold }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="percentage_below_threshold">
-            <th mat-header-cell *matHeaderCellDef>Percentage Below Threshold</th>
-            <td mat-cell *matCellDef="let row">{{ row.percentage_below_threshold }}%</td>
-          </ng-container>
+        <ng-container matColumnDef="percentage_below_threshold">
+          <th mat-header-cell *matHeaderCellDef>Percentage Below Threshold</th>
+          <td mat-cell *matCellDef="let row">{{ row.percentage_below_threshold }}%</td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedBelowThresholdColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedBelowThresholdColumns"></tr>
-        </table>
-      </div>
+        <tr mat-header-row *matHeaderRowDef="displayedBelowThresholdColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedBelowThresholdColumns"></tr>
+      </table>
+    </div>
 
-      <div class="table-card">
-        <h3>Low Score Comments</h3>
-        <table mat-table [dataSource]="report.lowScoreComments">
-          <ng-container matColumnDef="question_text">
-            <th mat-header-cell *matHeaderCellDef>Question Text</th>
-            <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
-          </ng-container>
+    <div class="table-card">
+      <h3>Low Score Comments</h3>
+      <table mat-table [dataSource]="report.lowScoreComments">
+        <ng-container matColumnDef="question_text">
+          <th mat-header-cell *matHeaderCellDef>Question Text</th>
+          <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="score_given">
-            <th mat-header-cell *matHeaderCellDef>Score Given</th>
-            <td mat-cell *matCellDef="let row">{{ row.score_given }}</td>
-          </ng-container>
+        <ng-container matColumnDef="score_given">
+          <th mat-header-cell *matHeaderCellDef>Score Given</th>
+          <td mat-cell *matCellDef="let row">{{ row.score_given }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="user_comment">
-            <th mat-header-cell *matHeaderCellDef>User Comment</th>
-            <td mat-cell *matCellDef="let row">{{ row.user_comment }}</td>
-          </ng-container>
+        <ng-container matColumnDef="user_comment">
+          <th mat-header-cell *matHeaderCellDef>User Comment</th>
+          <td mat-cell *matCellDef="let row">{{ row.user_comment }}</td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedLowScoreCommentColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedLowScoreCommentColumns"></tr>
-        </table>
-      </div>
+        <tr mat-header-row *matHeaderRowDef="displayedLowScoreCommentColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedLowScoreCommentColumns"></tr>
+      </table>
+    </div>
 
-      <div class="table-card">
-        <h3>Question Ranking</h3>
-        <table mat-table [dataSource]="report.questionRanking">
-          <ng-container matColumnDef="rank">
-            <th mat-header-cell *matHeaderCellDef>Rank</th>
-            <td mat-cell *matCellDef="let row">{{ row.rank }}</td>
-          </ng-container>
+    <div class="table-card">
+      <h3>Question Ranking</h3>
+      <table mat-table [dataSource]="report.questionRanking">
+        <ng-container matColumnDef="rank">
+          <th mat-header-cell *matHeaderCellDef>Rank</th>
+          <td mat-cell *matCellDef="let row">{{ row.rank }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="question_text">
-            <th mat-header-cell *matHeaderCellDef>Question Text</th>
-            <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
-          </ng-container>
+        <ng-container matColumnDef="question_text">
+          <th mat-header-cell *matHeaderCellDef>Question Text</th>
+          <td mat-cell *matCellDef="let row">{{ row.question_text }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="average_score">
-            <th mat-header-cell *matHeaderCellDef>Average Score</th>
-            <td mat-cell *matCellDef="let row">{{ row.average_score }}</td>
-          </ng-container>
+        <ng-container matColumnDef="average_score">
+          <th mat-header-cell *matHeaderCellDef>Average Score</th>
+          <td mat-cell *matCellDef="let row">{{ row.average_score }}</td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedRankingColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedRankingColumns"></tr>
-        </table>
-      </div>
+        <tr mat-header-row *matHeaderRowDef="displayedRankingColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedRankingColumns"></tr>
+      </table>
+    </div>
+
+
+    <div class="table-card">
+      <h3>Survey Completion</h3>
+      <table mat-table [dataSource]="report.surveyCompletion">
+        <ng-container matColumnDef="employee_id">
+          <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+          <td mat-cell *matCellDef="let row">{{ row.employee_id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Employee Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="submitted_at">
+          <th mat-header-cell *matHeaderCellDef>Submitted At</th>
+          <td mat-cell *matCellDef="let row">{{ row.submitted_at }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedCompletionColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedCompletionColumns"></tr>
+      </table>
+    </div>
+
     }
   </div>
 </section>

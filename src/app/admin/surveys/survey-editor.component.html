@@ -33,6 +33,11 @@
         </mat-form-field>
       </div>
 
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="3" formControlName="description"></textarea>
+      </mat-form-field>
+
       <div class="questions-header">
         <h3>Questions</h3>
         <button mat-stroked-button color="primary" type="button" (click)="addQuestion()">

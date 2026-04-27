@@ -17,6 +17,7 @@ import { MATERIAL_MODULES } from '../../shared/material';
 
 interface SurveyFormGroup {
   title: FormControl<string>;
+  description: FormControl<string>;
   start_at: FormControl<string>;
   end_at: FormControl<string>;
   questions: FormArray<FormGroup<QuestionFormGroup>>;
@@ -156,6 +157,7 @@ export class SurveyEditorComponent implements OnInit {
     // Build the reactive form structure for survey editing.
     return this.formBuilder.group<SurveyFormGroup>({
       title: this.formBuilder.control('', { nonNullable: true, validators: [Validators.required] }),
+      description: this.formBuilder.control('', { nonNullable: true, validators: [Validators.required] }),
       start_at: this.formBuilder.control('', { nonNullable: true, validators: [Validators.required] }),
       end_at: this.formBuilder.control('', { nonNullable: true, validators: [Validators.required] }),
       questions: this.formBuilder.array<FormGroup<QuestionFormGroup>>([])
@@ -205,6 +207,7 @@ export class SurveyEditorComponent implements OnInit {
     // Populate the form controls with survey data.
     this.form.patchValue({
       title: survey.title,
+      description: survey.description,
       start_at: this.toInputDateTime(survey.start_at),
       end_at: this.toInputDateTime(survey.end_at)
     });
@@ -238,6 +241,7 @@ export class SurveyEditorComponent implements OnInit {
 
     const payload: AdminSurveyPayload = {
       title: formValue.title,
+      description: formValue.description,
       start_at: this.fromInputDateTime(formValue.start_at),
       end_at: this.fromInputDateTime(formValue.end_at),
       questions

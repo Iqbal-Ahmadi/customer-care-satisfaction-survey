@@ -44,6 +44,7 @@ export class MockStoreService {
       {
         id: 10,
         title: 'Customer Care Representatives Survey',
+        description: 'Collect feedback from customer care representatives about workplace support, facilities, leadership, and daily operations.',
         start_at: '2026-01-01T00:00:00Z',
         end_at: '2026-12-31T23:59:59Z',
         questions: this.buildBaseQuestions(defaultOptions)
@@ -51,6 +52,7 @@ export class MockStoreService {
       {
         id: 11,
         title: 'Quality Assurance Pulse Check',
+        description: 'Capture quick input on coaching quality, standards clarity, performance feedback, and QA tooling effectiveness.',
         start_at: '2026-01-10T00:00:00Z',
         end_at: '2026-12-31T23:59:59Z',
         questions: this.buildAdditionalQuestions(defaultOptions)
@@ -58,10 +60,10 @@ export class MockStoreService {
     ];
 
     const users: AdminUser[] = [
-      { employee_id: 'EMP-001', name: 'Aisha Kareem', role: 'USER', locked: false },
-      { employee_id: 'EMP-002', name: 'Omar Khalid', role: 'USER', locked: false },
-      { employee_id: 'EMP-100', name: 'Lina Admin', role: 'ADMIN', locked: false },
-      { employee_id: 'EMP-999', name: 'System Super', role: 'SUPER_ADMIN', locked: false }
+      { employee_id: 'EMP-001', name: 'Aisha Kareem', role: 'USER' },
+      { employee_id: 'EMP-002', name: 'Omar Khalid', role: 'USER' },
+      { employee_id: 'EMP-100', name: 'Lina Admin', role: 'ADMIN' },
+      { employee_id: 'EMP-999', name: 'System Super', role: 'SUPER_ADMIN' }
     ];
 
     const responses: SurveyResponse[] = [];

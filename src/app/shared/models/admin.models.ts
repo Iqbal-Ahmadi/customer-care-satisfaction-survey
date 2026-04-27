@@ -4,6 +4,7 @@ import { SurveyQuestion } from './survey.models';
 export interface AdminSurveySummary {
   id: number;
   title: string;
+  description: string;
   start_at: string;
   end_at: string;
   question_count: number;
@@ -12,6 +13,7 @@ export interface AdminSurveySummary {
 export interface AdminSurvey {
   id: number;
   title: string;
+  description: string;
   start_at: string;
   end_at: string;
   questions: SurveyQuestion[];
@@ -30,6 +32,7 @@ export interface AdminSurveyQuestionPayload {
 export interface AdminSurveyPayload {
   id?: number;
   title: string;
+  description: string;
   start_at: string;
   end_at: string;
   questions: AdminSurveyQuestionPayload[];
@@ -39,7 +42,6 @@ export interface AdminUser {
   employee_id: string;
   name: string;
   role: UserRole;
-  locked: boolean;
 }
 
 export interface SurveyResponseAnswer {
@@ -83,12 +85,25 @@ export interface QuestionRankingStat {
   average_score: number;
 }
 
+export interface QuestionRankingStat {
+  rank: number;
+  question_text: string;
+  average_score: number;
+}
+
+export interface SurveyCompletionStat {
+  employee_id: string;
+  name: string;
+  submitted_at: number;
+  status: string;
+}
 export interface ReportFilters {
   survey_id: number;
   startDate?: string;
   endDate?: string;
   questionText?: string;
 }
+
 
 export interface ReportResult {
   survey_id: number;
@@ -97,4 +112,5 @@ export interface ReportResult {
   belowThresholdStats: BelowThresholdStat[];
   lowScoreComments: LowScoreCommentStat[];
   questionRanking: QuestionRankingStat[];
+  surveyCompletion: SurveyCompletionStat[];
 }

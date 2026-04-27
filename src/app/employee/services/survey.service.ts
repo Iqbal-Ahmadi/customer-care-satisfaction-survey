@@ -28,6 +28,7 @@ export class SurveyService {
         .map((survey) => ({
           id: survey.id,
           title: survey.title,
+          description: survey.description,
           start_at: survey.start_at,
           end_at: survey.end_at
         }));
@@ -56,6 +57,7 @@ export class SurveyService {
       const detail: SurveyDetail = {
         id: survey.id,
         title: survey.title,
+        description: survey.description,
         start_at: survey.start_at,
         end_at: survey.end_at,
         already_completed: alreadyCompleted,

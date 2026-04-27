@@ -65,10 +65,6 @@ export class LoginComponent {
   }
 
   private getLoginErrorMessage(status?: number): string {
-    if (status === 423) {
-      return 'Account locked. Try again later or contact admin.';
-    }
-
     if (status === 401) {
       return 'Invalid credentials.';
     }

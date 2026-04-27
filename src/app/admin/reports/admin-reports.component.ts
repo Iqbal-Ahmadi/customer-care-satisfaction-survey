@@ -34,6 +34,7 @@ export class AdminReportsComponent implements OnInit {
   ];
   displayedLowScoreCommentColumns = ['question_text', 'score_given', 'user_comment'];
   displayedRankingColumns = ['rank', 'question_text', 'average_score'];
+  displayedCompletionColumns = ['employee_id', 'name', 'submitted_at', 'status'];
 
   readonly filtersForm = this.formBuilder.group({
     survey_id: [0],
@@ -53,6 +54,22 @@ export class AdminReportsComponent implements OnInit {
       totalQuestions,
       totalAverageScore
     };
+  }
+
+  formatSubmittedAt(submittedAt: number | string): string {
+    if (!submittedAt) {
+      return '-';
+    }
+
+    const date = new Date(submittedAt);
+    if (Number.isNaN(date.getTime())) {
+      return String(submittedAt);
+    }
+
+    return new Intl.DateTimeFormat('en-US', {
+      dateStyle: 'medium',
+      timeStyle: 'short'
+    }).format(date);
   }
 
   ngOnInit(): void {
@@ -134,6 +151,16 @@ export class AdminReportsComponent implements OnInit {
         title: 'Question Ranking',
         headers: ['Rank', 'Question Text', 'Average Score'],
         rows: this.report.questionRanking.map((row) => [row.rank, row.question_text, row.average_score])
+      },
+      {
+        title: 'Survey Completion',
+        headers: ['Employee ID', 'Employee Name', 'Submitted At', 'Status'],
+        rows: this.report.surveyCompletion.map((row) => [
+          row.employee_id,
+          row.name,
+          this.formatSubmittedAt(row.submitted_at),
+          row.status
+        ])
       }
     ];
     const worksheetData: (string | number)[][] = [];
@@ -219,16 +246,16 @@ export class AdminReportsComponent implements OnInit {
               <th>Average Score</th>
             </tr>
             ${this.report.averageScorePerQuestion
-              .map(
-                (row) => `
+        .map(
+          (row) => `
                 <tr>
                   <td>${row.question_text}</td>
                   <td>${row.total_responses}</td>
                   <td>${row.average_score}</td>
                 </tr>
               `
-              )
-              .join('')}
+        )
+        .join('')}
             <tr class="summary-row">
               <td>Total Questions: ${this.averageScoreSummary.totalQuestions}</td>
               <td></td>
@@ -245,8 +272,8 @@ export class AdminReportsComponent implements OnInit {
               <th>Percentage Below Threshold</th>
             </tr>
             ${this.report.belowThresholdStats
-              .map(
-                (row) => `
+        .map(
+          (row) => `
                 <tr>
                   <td>${row.question_text}</td>
                   <td>${row.total_responses}</td>
@@ -254,8 +281,8 @@ export class AdminReportsComponent implements OnInit {
                   <td>${row.percentage_below_threshold}%</td>
                 </tr>
               `
-              )
-              .join('')}
+        )
+        .join('')}
           </table>
 
           <h3 class="page-break">Low Score Comments</h3>
@@ -266,16 +293,16 @@ export class AdminReportsComponent implements OnInit {
               <th>User Comment</th>
             </tr>
             ${this.report.lowScoreComments
-              .map(
-                (row) => `
+        .map(
+          (row) => `
                 <tr>
                   <td>${row.question_text}</td>
                   <td>${row.score_given}</td>
                   <td>${row.user_comment}</td>
                 </tr>
               `
-              )
-              .join('')}
+        )
+        .join('')}
           </table>
 
           <h3 class="page-break">Question Ranking</h3>
@@ -286,16 +313,38 @@ export class AdminReportsComponent implements OnInit {
               <th>Average Score</th>
             </tr>
             ${this.report.questionRanking
-              .map(
-                (row) => `
+        .map(
+          (row) => `
                 <tr>
                   <td>${row.rank}</td>
                   <td>${row.question_text}</td>
                   <td>${row.average_score}</td>
                 </tr>
               `
-              )
-              .join('')}
+        )
+        .join('')}
+          </table>
+
+          <h3 class="page-break">Survey Completion</h3>
+          <table>
+            <tr>
+              <th>Employee ID</th>
+              <th>Employee Name</th>
+              <th>Submitted At</th>
+              <th>Status</th>
+            </tr>
+            ${this.report.surveyCompletion
+        .map(
+          (row) => `
+                <tr>
+                  <td>${row.employee_id}</td>
+                  <td>${row.name}</td>
+                  <td>${this.formatSubmittedAt(row.submitted_at)}</td>
+                  <td>${row.status}</td>
+                </tr>
+              `
+        )
+        .join('')}
           </table>
         </body>
       </html>

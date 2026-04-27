@@ -12,7 +12,8 @@ import {
   QuestionAverageStat,
   QuestionRankingStat,
   ReportFilters,
-  ReportResult
+  ReportResult,
+  SurveyCompletionStat
 } from '../../shared/models/admin.models';
 import { MockStoreService } from '../../shared/services/mock-store.service';
 
@@ -21,7 +22,7 @@ export class AdminService {
   constructor(
     private readonly apiClient: ApiClientService,
     private readonly mockStoreService: MockStoreService
-  ) {}
+  ) { }
 
   getSurveys(): Observable<AdminSurveySummary[]> {
     // Load surveys for admin management.
@@ -29,6 +30,7 @@ export class AdminService {
       const surveys = this.mockStoreService.getStore().surveys.map((survey) => ({
         id: survey.id,
         title: survey.title,
+        description: survey.description,
         start_at: survey.start_at,
         end_at: survey.end_at,
         question_count: survey.questions.length
@@ -62,6 +64,7 @@ export class AdminService {
       const normalizedSurvey: AdminSurvey = {
         id: nextSurveyId,
         title: survey.title,
+        description: survey.description,
         start_at: survey.start_at,
         end_at: survey.end_at,
         questions: survey.questions.map((question, index) => ({
@@ -103,7 +106,7 @@ export class AdminService {
     // return this.apiClient.post<void>(`/api/admin/surveys/${id}/delete`, {});
     return this.apiClient.delete<void>(`/api/admin/surveys/delete/${id}`);
   }
-  
+
 
   getUsers(): Observable<AdminUser[]> {
     // Load users for admin management.
@@ -142,21 +145,6 @@ export class AdminService {
     return this.apiClient.post<AdminUser>(`/api/admin/users/${user.employee_id}`, user);
   }
 
-  unlockUser(employeeId: string): Observable<void> {
-    // Unlock a user's account after lockout.
-    if (environment.useMockApi) {
-      const store = this.mockStoreService.getStore();
-      const user = store.users.find((item) => item.employee_id === employeeId);
-      if (user) {
-        user.locked = false;
-        this.mockStoreService.saveStore(store);
-      }
-      return of(void 0).pipe(delay(200));
-    }
-
-    return this.apiClient.post<void>(`/api/admin/users/${employeeId}/unlock`, {});
-  }
-
   resetSurveyForUser(employeeId: string, surveyId: number): Observable<void> {
     // Reset survey completion for a specific user.
     if (environment.useMockApi) {
@@ -176,7 +164,7 @@ export class AdminService {
     if (environment.useMockApi) {
       return of(this.buildMockReport(filters)).pipe(delay(200));
     }
-    
+
     return this.apiClient.post<ReportResult>('/api/admin/reports', filters);
   }
 
@@ -192,7 +180,8 @@ export class AdminService {
         averageScorePerQuestion: [],
         belowThresholdStats: [],
         lowScoreComments: [],
-        questionRanking: []
+        questionRanking: [],
+        surveyCompletion: []
       };
     }
 
@@ -278,13 +267,16 @@ export class AdminService {
         average_score: item.average_score
       }));
 
+    const surveyCompletion: SurveyCompletionStat[] = [];
+
     return {
       survey_id: survey.id,
       survey_title: survey.title,
       averageScorePerQuestion,
       belowThresholdStats,
       lowScoreComments,
-      questionRanking
+      questionRanking,
+      surveyCompletion
     };
   }
 }
