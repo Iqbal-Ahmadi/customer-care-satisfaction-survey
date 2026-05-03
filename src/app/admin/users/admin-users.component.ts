@@ -20,7 +20,7 @@ export class AdminUsersComponent implements OnInit {
   errorMessage = '';
   selectedSurveyId: number | null = null;
 
-  displayedColumns = ['employee', 'role', 'actions'];
+  displayedColumns = ['employee', 'role', 'status', 'actions'];
   readonly skeletonRows = Array.from({ length: 5 });
 
   constructor(
@@ -49,21 +49,57 @@ export class AdminUsersComponent implements OnInit {
     });
   }
 
+  toggleUserLock(user: AdminUser): void {
+    // lock or unlock user account
+    if (user.locked) {
+      const sure = confirm('Are you want to Unlock this User');
+      if (sure) {
+        this.adminService.unlockUser(user.employee_id).subscribe({
+          next: () => {
+            user.locked = false;
+            this.snackBar.open('Account unlocked.', 'Dismiss', { duration: 3000 });
+            this.changeDetectorRef.markForCheck();
+          },
+          error: () => {
+            this.snackBar.open('Unable to unlock account.', 'Dismiss', { duration: 3000 });
+          }
+        });
+      }
+    }
+    if (!user.locked) {
+      const sure = confirm('Are you want to Lock this User');
+      if (sure) {
+        this.adminService.lockUser(user.employee_id).subscribe({
+          next: () => {
+            user.locked = true;
+            this.snackBar.open('Account Locked.', 'Dismiss', { duration: 3000 });
+            this.changeDetectorRef.markForCheck();
+          },
+          error: () => {
+            this.snackBar.open('Unable to lock account.', 'Dismiss', { duration: 3000 });
+          }
+        });
+      }
+    }
+  }
+
   resetSurvey(user: AdminUser): void {
     // Reset survey completion for the selected user.
     if (!this.selectedSurveyId) {
       this.snackBar.open('Select a survey to reset.', 'Dismiss', { duration: 3000 });
       return;
     }
-
-    this.adminService.resetSurveyForUser(user.employee_id, this.selectedSurveyId).subscribe({
-      next: () => {
-        this.snackBar.open('Survey reseted successfully.', 'Dismiss', { duration: 3000 });
-      },
-      error: () => {
-        this.snackBar.open('Unable to reset survey.', 'Dismiss', { duration: 3000 });
-      }
-    });
+    const sure = confirm('Are you want to reset this survey response')
+    if (sure) {
+      this.adminService.resetSurveyForUser(user.employee_id, this.selectedSurveyId).subscribe({
+        next: () => {
+          this.snackBar.open('Survey reseted successfully.', 'Dismiss', { duration: 3000 });
+        },
+        error: () => {
+          this.snackBar.open('Unable to reset survey.', 'Dismiss', { duration: 3000 });
+        }
+      });
+    }
   }
 
   private fetchData(): void {

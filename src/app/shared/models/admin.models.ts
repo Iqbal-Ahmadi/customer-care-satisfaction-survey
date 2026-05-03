@@ -42,6 +42,7 @@ export interface AdminUser {
   employee_id: string;
   name: string;
   role: UserRole;
+  locked: boolean;
 }
 
 export interface SurveyResponseAnswer {

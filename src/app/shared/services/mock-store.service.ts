@@ -1,6 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { AdminSurvey, AdminUser, SurveyResponse } from '../models/admin.models';
 import { SurveyOption, SurveyQuestion } from '../models/survey.models';
+import { flatMap } from 'rxjs';
 
 interface MockStore {
   surveys: AdminSurvey[];
@@ -60,10 +61,10 @@ export class MockStoreService {
     ];
 
     const users: AdminUser[] = [
-      { employee_id: 'EMP-001', name: 'Aisha Kareem', role: 'USER' },
-      { employee_id: 'EMP-002', name: 'Omar Khalid', role: 'USER' },
-      { employee_id: 'EMP-100', name: 'Lina Admin', role: 'ADMIN' },
-      { employee_id: 'EMP-999', name: 'System Super', role: 'SUPER_ADMIN' }
+      { employee_id: 'EMP-001', name: 'Aisha Kareem', role: 'USER', locked: false },
+      { employee_id: 'EMP-002', name: 'Omar Khalid', role: 'USER', locked: false },
+      { employee_id: 'EMP-100', name: 'Lina Admin', role: 'ADMIN', locked: false },
+      { employee_id: 'EMP-999', name: 'System Super', role: 'SUPER_ADMIN', locked: false }
     ];
 
     const responses: SurveyResponse[] = [];

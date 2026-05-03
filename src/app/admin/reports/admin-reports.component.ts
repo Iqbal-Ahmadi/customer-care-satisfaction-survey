@@ -56,6 +56,26 @@ export class AdminReportsComponent implements OnInit {
     };
   }
 
+  get surveyCompletionSummary(): { completedPercentage: number; pendingPercentage: number } {
+    const rows = this.report?.surveyCompletion ?? [];
+    const total = rows.length;
+
+    if (!total) {
+      return {
+        completedPercentage: 0,
+        pendingPercentage: 0
+      };
+    }
+
+    const completedCount = rows.filter((row) => row.status?.toLowerCase() === 'completed').length;
+    const pendingCount = rows.filter((row) => row.status?.toLowerCase() === 'pending').length;
+
+    return {
+      completedPercentage: Number(((completedCount / total) * 100).toFixed(2)),
+      pendingPercentage: Number(((pendingCount / total) * 100).toFixed(2))
+    };
+  }
+
   formatSubmittedAt(submittedAt: number | string): string {
     if (!submittedAt) {
       return '-';
@@ -119,6 +139,7 @@ export class AdminReportsComponent implements OnInit {
     }
 
     const averageScoreSummary = this.averageScoreSummary;
+    const surveyCompletionSummary = this.surveyCompletionSummary;
     const sections = [
       {
         title: 'Average Score per Question',
@@ -155,12 +176,20 @@ export class AdminReportsComponent implements OnInit {
       {
         title: 'Survey Completion',
         headers: ['Employee ID', 'Employee Name', 'Submitted At', 'Status'],
-        rows: this.report.surveyCompletion.map((row) => [
-          row.employee_id,
-          row.name,
-          this.formatSubmittedAt(row.submitted_at),
-          row.status
-        ])
+        rows: [
+          ...this.report.surveyCompletion.map((row) => [
+            row.employee_id,
+            row.name,
+            this.formatSubmittedAt(row.submitted_at),
+            row.status
+          ]),
+          [
+            `Completed: ${surveyCompletionSummary.completedPercentage}%`,
+            `Pending: ${surveyCompletionSummary.pendingPercentage}%`,
+            '',
+            ''
+          ]
+        ]
       }
     ];
     const worksheetData: (string | number)[][] = [];
@@ -190,7 +219,10 @@ export class AdminReportsComponent implements OnInit {
         const currentRowIndex = worksheetData.length + 1;
         worksheetData.push(row);
 
-        if (section.title === 'Average Score per Question' && rowIndex === section.rows.length - 1) {
+        if (
+          (section.title === 'Average Score per Question' || section.title === 'Survey Completion') &&
+          rowIndex === section.rows.length - 1
+        ) {
           summaryRows.push(currentRowIndex);
         }
       });
@@ -345,6 +377,12 @@ export class AdminReportsComponent implements OnInit {
               `
         )
         .join('')}
+            <tr class="summary-row">
+              <td>Completed: ${this.surveyCompletionSummary.completedPercentage}%</td>
+              <td>Pending: ${this.surveyCompletionSummary.pendingPercentage}%</td>
+              <td></td>
+              <td></td>
+            </tr>
           </table>
         </body>
       </html>

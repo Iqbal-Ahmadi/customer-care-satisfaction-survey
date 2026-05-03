@@ -1,10 +1,10 @@
 ﻿<section class="admin-wrapper">
   <div class="page-container">
-    <!-- User management with role and survey reset actions. -->
+    <!-- User management with lock-unlock/reset actions.-->
     <header class="admin-header">
       <div>
         <h2>User Management</h2>
-        <p class="muted-text">Manage user roles and reset survey completion.</p>
+        <p class="muted-text">Manage user roles, lock accounts and reset survey completion.</p>
       </div>
       <mat-form-field appearance="outline" class="survey-select">
         <mat-label>Survey for reset</mat-label>
@@ -48,11 +48,22 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let user">
+            <span [class.locked]="user.locked">{{ user.locked ? 'Locked' : 'Active' }}</span>
+
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let user">
             <div class="action-buttons">
               <button mat-stroked-button color="primary" (click)="resetSurvey(user)">Reset Survey</button>
+              <button mat-stroked-button color="{{ user.locked ? 'primary' : 'warn' }}" (click)="toggleUserLock(user)">
+                {{ user.locked ? 'Unlock' : 'Lock' }}
+              </button>
             </div>
           </td>
         </ng-container>

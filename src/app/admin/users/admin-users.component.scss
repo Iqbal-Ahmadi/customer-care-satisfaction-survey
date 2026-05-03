@@ -39,6 +39,11 @@ table {
   width: 180px;
 }
 
+.locked {
+  color: #b00020;
+  font-weight: 600;
+}
+
 .action-buttons {
   display: flex;
   flex-wrap: wrap;

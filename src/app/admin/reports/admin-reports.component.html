@@ -157,25 +157,34 @@
         <ng-container matColumnDef="employee_id">
           <th mat-header-cell *matHeaderCellDef>Employee ID</th>
           <td mat-cell *matCellDef="let row">{{ row.employee_id }}</td>
+          <td mat-footer-cell *matFooterCellDef class="summary-footer-cell">
+            Completed: {{ surveyCompletionSummary.completedPercentage }}%
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Employee Name</th>
           <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          <td mat-footer-cell *matFooterCellDef class="summary-footer-cell">
+            Pending: {{ surveyCompletionSummary.pendingPercentage }}%
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="submitted_at">
           <th mat-header-cell *matHeaderCellDef>Submitted At</th>
           <td mat-cell *matCellDef="let row">{{ row.submitted_at }}</td>
+          <td mat-footer-cell *matFooterCellDef class="summary-footer-cell"></td>
         </ng-container>
 
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+          <td mat-footer-cell *matFooterCellDef class="summary-footer-cell"></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedCompletionColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedCompletionColumns"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedCompletionColumns"></tr>
       </table>
     </div>
 

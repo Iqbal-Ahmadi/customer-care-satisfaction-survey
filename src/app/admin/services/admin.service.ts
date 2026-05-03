@@ -145,6 +145,25 @@ export class AdminService {
     return this.apiClient.post<AdminUser>(`/api/admin/users/${user.employee_id}`, user);
   }
 
+  unlockUser(employeeId: string): Observable<void> {
+    // Unlock a user's account after lockout.
+    if (environment.useMockApi) {
+      const store = this.mockStoreService.getStore();
+      const user = store.users.find((item) => item.employee_id === employeeId);
+      if (user) {
+        user.locked = false;
+        this.mockStoreService.saveStore(store);
+      }
+      return of(void 0).pipe(delay(200));
+    }
+
+    return this.apiClient.post<void>(`/api/admin/users/${employeeId}/unlock`, {});
+  }
+
+  lockUser(employeeId: string): Observable<void> {
+    return this.apiClient.post<void>(`/api/admin/users/${employeeId}/lock`, {});
+  }
+
   resetSurveyForUser(employeeId: string, surveyId: number): Observable<void> {
     // Reset survey completion for a specific user.
     if (environment.useMockApi) {
